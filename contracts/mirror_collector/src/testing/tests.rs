@@ -6,9 +6,9 @@ use cosmwasm_std::{to_binary, Coin, CosmosMsg, Decimal, SubMsg, Uint128, WasmMsg
 use cw20::Cw20ExecuteMsg;
 use mirror_protocol::collector::{ConfigResponse, ExecuteMsg, InstantiateMsg};
 use mirror_protocol::gov::Cw20HookMsg::DepositReward;
-use terra_cosmwasm::{TerraMsg, TerraMsgWrapper, TerraRoute};
-use terraswap::asset::{Asset, AssetInfo};
-use terraswap::pair::{Cw20HookMsg as TerraswapCw20HookMsg, ExecuteMsg as TerraswapExecuteMsg};
+use daodiseo_cosmwasm::{DaodiseoMsg, DaodiseoMsgWrapper, DaodiseoRoute};
+use daodiseoswap::asset::{Asset, AssetInfo};
+use daodiseoswap::pair::{Cw20HookMsg as DaodiseoswapCw20HookMsg, ExecuteMsg as DaodiseoswapExecuteMsg};
 
 #[test]
 fn proper_initialization() {
@@ -16,7 +16,7 @@ fn proper_initialization() {
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "mirror0000".to_string(),
         base_denom: "uusd".to_string(),
@@ -34,7 +34,7 @@ fn proper_initialization() {
 
     // it worked, let's query the state
     let config: ConfigResponse = query_config(deps.as_ref()).unwrap();
-    assert_eq!("terraswapfactory", config.terraswap_factory.as_str());
+    assert_eq!("daodiseoswapfactory", config.daodiseoswap_factory.as_str());
     assert_eq!("uusd", config.base_denom.as_str());
 }
 
@@ -54,14 +54,14 @@ fn test_convert() {
         &[(&"uusd".to_string(), &Uint128::from(1000000u128))],
     );
 
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&"uusdtokenAPPL".to_string(), &"pairAPPL".to_string()),
         (&"uusdtokenMIRROR".to_string(), &"pairMIRROR".to_string()),
     ]);
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "tokenMIRROR".to_string(),
         base_denom: "uusd".to_string(),
@@ -89,7 +89,7 @@ fn test_convert() {
             msg: to_binary(&Cw20ExecuteMsg::Send {
                 contract: "pairAPPL".to_string(),
                 amount: Uint128::from(100u128),
-                msg: to_binary(&TerraswapCw20HookMsg::Swap {
+                msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
                     max_spread: None,
                     belief_price: None,
                     to: None,
@@ -113,7 +113,7 @@ fn test_convert() {
         res.messages,
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: "pairMIRROR".to_string(),
-            msg: to_binary(&TerraswapExecuteMsg::Swap {
+            msg: to_binary(&DaodiseoswapExecuteMsg::Swap {
                 offer_asset: Asset {
                     info: AssetInfo::NativeToken {
                         denom: "uusd".to_string()
@@ -146,7 +146,7 @@ fn test_convert_aust() {
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "mirror0000".to_string(),
         base_denom: "uusd".to_string(),
@@ -193,11 +193,11 @@ fn test_convert_lunax() {
     )]);
 
     deps.querier
-        .with_terraswap_pairs(&[(&"ulunalunax0000".to_string(), &"pairLunax".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"ulunalunax0000".to_string(), &"pairLunax".to_string())]);
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "mirror0000".to_string(),
         base_denom: "uusd".to_string(),
@@ -225,7 +225,7 @@ fn test_convert_lunax() {
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: "pairLunax".to_string(),
                     amount: Uint128::from(100u128),
-                    msg: to_binary(&TerraswapCw20HookMsg::Swap {
+                    msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
                         max_spread: None,
                         belief_price: None,
                         to: None,
@@ -249,9 +249,9 @@ fn test_convert_lunax() {
     let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
     assert_eq!(
         res.messages,
-        vec![SubMsg::new(CosmosMsg::Custom(TerraMsgWrapper {
-            route: TerraRoute::Market,
-            msg_data: TerraMsg::Swap {
+        vec![SubMsg::new(CosmosMsg::Custom(DaodiseoMsgWrapper {
+            route: DaodiseoRoute::Market,
+            msg_data: DaodiseoMsg::Swap {
                 offer_coin: Coin {
                     amount: Uint128::from(100u128),
                     denom: "uluna".to_string()
@@ -274,11 +274,11 @@ fn test_convert_bluna() {
     )]);
 
     deps.querier
-        .with_terraswap_pairs(&[(&"ulunabluna0000".to_string(), &"pairbLuna".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"ulunabluna0000".to_string(), &"pairbLuna".to_string())]);
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "mirror0000".to_string(),
         base_denom: "uusd".to_string(),
@@ -306,7 +306,7 @@ fn test_convert_bluna() {
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: "pairbLuna".to_string(),
                     amount: Uint128::from(100u128),
-                    msg: to_binary(&TerraswapCw20HookMsg::Swap {
+                    msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
                         max_spread: None,
                         belief_price: None,
                         to: None,
@@ -330,9 +330,9 @@ fn test_convert_bluna() {
     let res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
     assert_eq!(
         res.messages,
-        vec![SubMsg::new(CosmosMsg::Custom(TerraMsgWrapper {
-            route: TerraRoute::Market,
-            msg_data: TerraMsg::Swap {
+        vec![SubMsg::new(CosmosMsg::Custom(DaodiseoMsgWrapper {
+            route: DaodiseoRoute::Market,
+            msg_data: DaodiseoMsg::Swap {
                 offer_coin: Coin {
                     amount: Uint128::from(100u128),
                     denom: "uluna".to_string()
@@ -353,7 +353,7 @@ fn test_send() {
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "mirror0000".to_string(),
         base_denom: "uusd".to_string(),
@@ -399,11 +399,11 @@ fn test_set_astroport_mir_pair() {
     );
 
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdtokenMIRROR".to_string(), &"pairMIRROR".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdtokenMIRROR".to_string(), &"pairMIRROR".to_string())]);
 
     let msg = InstantiateMsg {
         owner: "owner0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
         distribution_contract: "gov0000".to_string(),
         mirror_token: "tokenMIRROR".to_string(),
         base_denom: "uusd".to_string(),
@@ -429,8 +429,8 @@ fn test_set_astroport_mir_pair() {
     assert_eq!(
         res.messages,
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
-            contract_addr: "pairMIRROR".to_string(), // terraswap pair
-            msg: to_binary(&TerraswapExecuteMsg::Swap {
+            contract_addr: "pairMIRROR".to_string(), // daodiseoswap pair
+            msg: to_binary(&DaodiseoswapExecuteMsg::Swap {
                 offer_asset: Asset {
                     info: AssetInfo::NativeToken {
                         denom: "uusd".to_string()
@@ -452,7 +452,7 @@ fn test_set_astroport_mir_pair() {
     // trigger the change by updating the configuration
     let msg = ExecuteMsg::UpdateConfig {
         owner: None,
-        terraswap_factory: None,
+        daodiseoswap_factory: None,
         distribution_contract: None,
         mirror_token: None,
         base_denom: None,
@@ -479,7 +479,7 @@ fn test_set_astroport_mir_pair() {
         res.messages,
         vec![SubMsg::new(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: "astroportPAIR".to_string(), // astroport pair
-            msg: to_binary(&TerraswapExecuteMsg::Swap {
+            msg: to_binary(&DaodiseoswapExecuteMsg::Swap {
                 // swap message format is same on astroport, will parse ok
                 offer_asset: Asset {
                     info: AssetInfo::NativeToken {

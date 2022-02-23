@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use cosmwasm_std::{Decimal, Uint128};
 use cw20::Cw20ReceiveMsg;
-use terraswap::asset::Asset;
+use daodiseoswap::asset::Asset;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
@@ -11,7 +11,7 @@ pub struct InstantiateMsg {
     pub mirror_token: String,
     pub mint_contract: String,
     pub oracle_contract: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub base_denom: String,
     pub premium_min_update_interval: u64,
     pub short_reward_contract: String,
@@ -120,7 +120,7 @@ pub struct ConfigResponse {
     pub mirror_token: String,
     pub mint_contract: String,
     pub oracle_contract: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub base_denom: String,
     pub premium_min_update_interval: u64,
     pub short_reward_contract: String,

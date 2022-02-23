@@ -8,9 +8,9 @@ use cosmwasm_std::{
 use mirror_protocol::collateral_oracle::SourceType;
 use serde::{Deserialize, Serialize};
 use std::str::FromStr;
-use terra_cosmwasm::{ExchangeRatesResponse, TerraQuerier};
-use terraswap::asset::{Asset, AssetInfo};
-use terraswap::pair::QueryMsg as TerraswapPairQueryMsg;
+use daodiseo_cosmwasm::{ExchangeRatesResponse, DaodiseoQuerier};
+use daodiseoswap::asset::{Asset, AssetInfo};
+use daodiseoswap::pair::QueryMsg as DaodiseoswapPairQueryMsg;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
 #[serde(rename_all = "snake_case")]
@@ -33,14 +33,14 @@ pub enum SourceQueryMsg {
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-pub struct TerraOracleResponse {
+pub struct DaodiseoOracleResponse {
     // oracle queries returns rate
     pub rate: Decimal,
     pub last_updated_base: u64,
 }
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
-pub struct TerraswapResponse {
-    // terraswap queries return pool assets
+pub struct DaodiseoswapResponse {
+    // daodiseoswap queries return pool assets
     pub assets: [Asset; 2],
 }
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -98,7 +98,7 @@ pub fn query_price(
         }
         SourceType::FixedPrice { price } => Ok((*price, u64::MAX)),
         SourceType::MirrorOracle {} => {
-            let res: TerraOracleResponse =
+            let res: DaodiseoOracleResponse =
                 deps.querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
                     contract_addr: deps.api.addr_humanize(&config.mirror_oracle)?.to_string(),
                     msg: to_binary(&SourceQueryMsg::Price {
@@ -111,7 +111,7 @@ pub fn query_price(
             Ok((res.rate, res.last_updated_base))
         }
         SourceType::AnchorOracle {} => {
-            let res: TerraOracleResponse =
+            let res: DaodiseoOracleResponse =
                 deps.querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
                     contract_addr: deps.api.addr_humanize(&config.anchor_oracle)?.to_string(),
                     msg: to_binary(&SourceQueryMsg::Price {
@@ -123,14 +123,14 @@ pub fn query_price(
 
             Ok((res.rate, res.last_updated_base))
         }
-        SourceType::Terraswap {
-            terraswap_pair_addr,
+        SourceType::Daodiseoswap {
+            daodiseoswap_pair_addr,
             intermediate_denom,
         } => {
-            let res: TerraswapResponse =
+            let res: DaodiseoswapResponse =
                 deps.querier.query(&QueryRequest::Wasm(WasmQuery::Smart {
-                    contract_addr: terraswap_pair_addr.to_string(),
-                    msg: to_binary(&TerraswapPairQueryMsg::Pool {}).unwrap(),
+                    contract_addr: daodiseoswap_pair_addr.to_string(),
+                    msg: to_binary(&DaodiseoswapPairQueryMsg::Pool {}).unwrap(),
                 }))?;
             let assets: [Asset; 2] = res.assets;
 
@@ -233,9 +233,9 @@ fn query_native_rate(
     base_denom: String,
     quote_denom: String,
 ) -> StdResult<Decimal> {
-    let terra_querier = TerraQuerier::new(querier);
+    let daodiseo_querier = DaodiseoQuerier::new(querier);
     let res: ExchangeRatesResponse =
-        terra_querier.query_exchange_rates(base_denom, vec![quote_denom])?;
+        daodiseo_querier.query_exchange_rates(base_denom, vec![quote_denom])?;
 
     Ok(res.exchange_rates[0].exchange_rate)
 }

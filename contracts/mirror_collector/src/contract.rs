@@ -13,8 +13,8 @@ use mirror_protocol::collector::{
     ConfigResponse, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg,
 };
 use mirror_protocol::gov::Cw20HookMsg::DepositReward;
-use terra_cosmwasm::TerraMsgWrapper;
-use terraswap::querier::query_token_balance;
+use daodiseo_cosmwasm::DaodiseoMsgWrapper;
+use daodiseoswap::querier::query_token_balance;
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
@@ -33,7 +33,7 @@ pub fn instantiate(
         &Config {
             owner: deps.api.addr_canonicalize(&msg.owner)?,
             distribution_contract: deps.api.addr_canonicalize(&msg.distribution_contract)?,
-            terraswap_factory: deps.api.addr_canonicalize(&msg.terraswap_factory)?,
+            daodiseoswap_factory: deps.api.addr_canonicalize(&msg.daodiseoswap_factory)?,
             mirror_token: deps.api.addr_canonicalize(&msg.mirror_token)?,
             base_denom: msg.base_denom,
             aust_token: deps.api.addr_canonicalize(&msg.aust_token)?,
@@ -53,12 +53,12 @@ pub fn execute(
     env: Env,
     info: MessageInfo,
     msg: ExecuteMsg,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     match msg {
         ExecuteMsg::UpdateConfig {
             owner,
             distribution_contract,
-            terraswap_factory,
+            daodiseoswap_factory,
             mirror_token,
             base_denom,
             aust_token,
@@ -71,7 +71,7 @@ pub fn execute(
             info,
             owner,
             distribution_contract,
-            terraswap_factory,
+            daodiseoswap_factory,
             mirror_token,
             base_denom,
             aust_token,
@@ -95,7 +95,7 @@ pub fn update_config(
     info: MessageInfo,
     owner: Option<String>,
     distribution_contract: Option<String>,
-    terraswap_factory: Option<String>,
+    daodiseoswap_factory: Option<String>,
     mirror_token: Option<String>,
     base_denom: Option<String>,
     aust_token: Option<String>,
@@ -103,7 +103,7 @@ pub fn update_config(
     bluna_token: Option<String>,
     mir_ust_pair: Option<String>,
     lunax_token: Option<String>,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     let mut config: Config = read_config(deps.storage)?;
     if config.owner != deps.api.addr_canonicalize(info.sender.as_str())? {
         return Err(ContractError::Unauthorized {});
@@ -117,8 +117,8 @@ pub fn update_config(
         config.distribution_contract = deps.api.addr_canonicalize(&distribution_contract)?;
     }
 
-    if let Some(terraswap_factory) = terraswap_factory {
-        config.terraswap_factory = deps.api.addr_canonicalize(&terraswap_factory)?;
+    if let Some(daodiseoswap_factory) = daodiseoswap_factory {
+        config.daodiseoswap_factory = deps.api.addr_canonicalize(&daodiseoswap_factory)?;
     }
 
     if let Some(mirror_token) = mirror_token {
@@ -156,7 +156,7 @@ pub fn update_config(
 }
 
 // Anyone can execute send function to receive staking token rewards
-pub fn distribute(deps: DepsMut, env: Env) -> Result<Response<TerraMsgWrapper>, ContractError> {
+pub fn distribute(deps: DepsMut, env: Env) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     let config: Config = read_config(deps.storage)?;
     let amount = query_token_balance(
         &deps.querier,
@@ -198,9 +198,9 @@ pub fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
             .api
             .addr_humanize(&state.distribution_contract)?
             .to_string(),
-        terraswap_factory: deps
+        daodiseoswap_factory: deps
             .api
-            .addr_humanize(&state.terraswap_factory)?
+            .addr_humanize(&state.daodiseoswap_factory)?
             .to_string(),
         mirror_token: deps.api.addr_humanize(&state.mirror_token)?.to_string(),
         base_denom: state.base_denom,

@@ -10,7 +10,7 @@ pub static KEY_CONFIG: &[u8] = b"config";
 pub struct Config {
     pub owner: CanonicalAddr,
     pub distribution_contract: CanonicalAddr, // collected rewards receiver
-    pub terraswap_factory: CanonicalAddr,     // terraswap factory contract
+    pub daodiseoswap_factory: CanonicalAddr,     // daodiseoswap factory contract
     pub mirror_token: CanonicalAddr,
     pub base_denom: String,
     // aUST params
@@ -20,7 +20,7 @@ pub struct Config {
     pub bluna_token: CanonicalAddr,
     // Lunax params
     pub lunax_token: CanonicalAddr,
-    // when set, use this address instead of querying from terraswap
+    // when set, use this address instead of querying from daodiseoswap
     pub mir_ust_pair: Option<CanonicalAddr>,
 }
 

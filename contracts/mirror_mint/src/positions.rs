@@ -25,7 +25,7 @@ use mirror_protocol::{
     mint::{NextPositionIdxResponse, PositionResponse, PositionsResponse, ShortParams},
     staking::ExecuteMsg as StakingExecuteMsg,
 };
-use terraswap::{
+use daodiseoswap::{
     asset::{Asset, AssetInfo, AssetInfoRaw, AssetRaw},
     pair::Cw20HookMsg as PairCw20HookMsg,
     querier::query_pair_info,
@@ -125,11 +125,11 @@ pub fn open_position(
         is_short = true;
         store_short_position(deps.storage, position_idx)?;
 
-        // need to sell the tokens to terraswap
+        // need to sell the tokens to daodiseoswap
         // load pair contract address
         let pair_info = query_pair_info(
             &deps.querier,
-            deps.api.addr_humanize(&config.terraswap_factory)?,
+            deps.api.addr_humanize(&config.daodiseoswap_factory)?,
             &[
                 AssetInfo::NativeToken {
                     denom: config.base_denom,
@@ -446,14 +446,14 @@ pub fn mint(
     let asset_token = deps.api.addr_humanize(&asset_config.token)?;
 
     // If the position is flagged as short position.
-    // immediately sell the token to terraswap
+    // immediately sell the token to daodiseoswap
     // and execute staking short token
     let messages: Vec<CosmosMsg> = if is_short_position(deps.storage, position_idx)? {
-        // need to sell the tokens to terraswap
+        // need to sell the tokens to daodiseoswap
         // load pair contract address
         let pair_info = query_pair_info(
             &deps.querier,
-            deps.api.addr_humanize(&config.terraswap_factory)?,
+            deps.api.addr_humanize(&config.daodiseoswap_factory)?,
             &[
                 AssetInfo::NativeToken {
                     denom: config.base_denom,

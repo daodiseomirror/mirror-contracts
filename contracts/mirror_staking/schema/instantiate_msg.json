@@ -10,7 +10,7 @@
     "owner",
     "premium_min_update_interval",
     "short_reward_contract",
-    "terraswap_factory"
+    "daodiseoswap_factory"
   ],
   "properties": {
     "base_denom": {
@@ -36,7 +36,7 @@
     "short_reward_contract": {
       "type": "string"
     },
-    "terraswap_factory": {
+    "daodiseoswap_factory": {
       "type": "string"
     }
   }

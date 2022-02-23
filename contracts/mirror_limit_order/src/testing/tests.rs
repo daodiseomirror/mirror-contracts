@@ -13,7 +13,7 @@ use mirror_protocol::limit_order::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, LastOrderIdResponse, OrderResponse, OrdersResponse,
     QueryMsg,
 };
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 #[test]
 fn proper_initialization() {

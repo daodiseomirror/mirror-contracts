@@ -8,8 +8,8 @@ use cosmwasm_std::{
 };
 use cw20::BalanceResponse;
 use std::collections::HashMap;
-use terra_cosmwasm::{TaxCapResponse, TaxRateResponse, TerraQuery, TerraQueryWrapper, TerraRoute};
-use terraswap::asset::{AssetInfo, PairInfo};
+use daodiseo_cosmwasm::{TaxCapResponse, TaxRateResponse, DaodiseoQuery, DaodiseoQueryWrapper, DaodiseoRoute};
+use daodiseoswap::asset::{AssetInfo, PairInfo};
 
 /// mock_dependencies is a drop-in replacement for cosmwasm_std::testing::mock_dependencies
 /// this uses our CustomQuerier.
@@ -27,10 +27,10 @@ pub fn mock_dependencies(
 }
 
 pub struct WasmMockQuerier {
-    base: MockQuerier<TerraQueryWrapper>,
+    base: MockQuerier<DaodiseoQueryWrapper>,
     token_querier: TokenQuerier,
     tax_querier: TaxQuerier,
-    terraswap_factory_querier: TerraswapFactoryQuerier,
+    daodiseoswap_factory_querier: DaodiseoswapFactoryQuerier,
 }
 
 #[derive(Clone, Default)]
@@ -87,13 +87,13 @@ pub(crate) fn caps_to_map(caps: &[(&String, &Uint128)]) -> HashMap<String, Uint1
 }
 
 #[derive(Clone, Default)]
-pub struct TerraswapFactoryQuerier {
+pub struct DaodiseoswapFactoryQuerier {
     pairs: HashMap<String, String>,
 }
 
-impl TerraswapFactoryQuerier {
+impl DaodiseoswapFactoryQuerier {
     pub fn new(pairs: &[(&String, &String)]) -> Self {
-        TerraswapFactoryQuerier {
+        DaodiseoswapFactoryQuerier {
             pairs: pairs_to_map(pairs),
         }
     }
@@ -110,7 +110,7 @@ pub(crate) fn pairs_to_map(pairs: &[(&String, &String)]) -> HashMap<String, Stri
 impl Querier for WasmMockQuerier {
     fn raw_query(&self, bin_request: &[u8]) -> QuerierResult {
         // MockQuerier doesn't support Custom, so we ignore it completely here
-        let request: QueryRequest<TerraQueryWrapper> = match from_slice(bin_request) {
+        let request: QueryRequest<DaodiseoQueryWrapper> = match from_slice(bin_request) {
             Ok(v) => v,
             Err(e) => {
                 return SystemResult::Err(SystemError::InvalidRequest {
@@ -131,18 +131,18 @@ pub enum QueryMsg {
 }
 
 impl WasmMockQuerier {
-    pub fn handle_query(&self, request: &QueryRequest<TerraQueryWrapper>) -> QuerierResult {
+    pub fn handle_query(&self, request: &QueryRequest<DaodiseoQueryWrapper>) -> QuerierResult {
         match &request {
-            QueryRequest::Custom(TerraQueryWrapper { route, query_data }) => {
-                if route == &TerraRoute::Treasury {
+            QueryRequest::Custom(DaodiseoQueryWrapper { route, query_data }) => {
+                if route == &DaodiseoRoute::Treasury {
                     match query_data {
-                        TerraQuery::TaxRate {} => {
+                        DaodiseoQuery::TaxRate {} => {
                             let res = TaxRateResponse {
                                 rate: self.tax_querier.rate,
                             };
                             SystemResult::Ok(ContractResult::from(to_binary(&res)))
                         }
-                        TerraQuery::TaxCap { denom } => {
+                        DaodiseoQuery::TaxCap { denom } => {
                             let cap = self
                                 .tax_querier
                                 .caps
@@ -163,7 +163,7 @@ impl WasmMockQuerier {
             {
                 QueryMsg::Pair { asset_infos } => {
                     let key = asset_infos[0].to_string() + asset_infos[1].to_string().as_str();
-                    match self.terraswap_factory_querier.pairs.get(&key) {
+                    match self.daodiseoswap_factory_querier.pairs.get(&key) {
                         Some(v) => SystemResult::Ok(ContractResult::from(to_binary(&PairInfo {
                             contract_addr: v.to_string(),
                             liquidity_token: "liquidity".to_string(),
@@ -220,12 +220,12 @@ impl WasmMockQuerier {
 }
 
 impl WasmMockQuerier {
-    pub fn new(base: MockQuerier<TerraQueryWrapper>) -> Self {
+    pub fn new(base: MockQuerier<DaodiseoQueryWrapper>) -> Self {
         WasmMockQuerier {
             base,
             token_querier: TokenQuerier::default(),
             tax_querier: TaxQuerier::default(),
-            terraswap_factory_querier: TerraswapFactoryQuerier::default(),
+            daodiseoswap_factory_querier: DaodiseoswapFactoryQuerier::default(),
         }
     }
 
@@ -239,8 +239,8 @@ impl WasmMockQuerier {
         self.tax_querier = TaxQuerier::new(rate, caps);
     }
 
-    // configure the terraswap pair
-    pub fn with_terraswap_pairs(&mut self, pairs: &[(&String, &String)]) {
-        self.terraswap_factory_querier = TerraswapFactoryQuerier::new(pairs);
+    // configure the daodiseoswap pair
+    pub fn with_daodiseoswap_pairs(&mut self, pairs: &[(&String, &String)]) {
+        self.daodiseoswap_factory_querier = DaodiseoswapFactoryQuerier::new(pairs);
     }
 }

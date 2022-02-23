@@ -11,7 +11,7 @@
     "distribution_contract",
     "mirror_token",
     "owner",
-    "terraswap_factory"
+    "daodiseoswap_factory"
   ],
   "properties": {
     "anchor_market": {
@@ -44,7 +44,7 @@
     "owner": {
       "type": "string"
     },
-    "terraswap_factory": {
+    "daodiseoswap_factory": {
       "type": "string"
     }
   }

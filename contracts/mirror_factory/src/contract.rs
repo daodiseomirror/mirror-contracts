@@ -27,10 +27,10 @@ use mirror_protocol::staking::ExecuteMsg as StakingExecuteMsg;
 use protobuf::Message;
 
 use cw20::{Cw20ExecuteMsg, MinterResponse};
-use terraswap::asset::{AssetInfo, PairInfo};
-use terraswap::factory::ExecuteMsg as TerraswapFactoryExecuteMsg;
-use terraswap::querier::query_pair_info;
-use terraswap::token::InstantiateMsg as TokenInstantiateMsg;
+use daodiseoswap::asset::{AssetInfo, PairInfo};
+use daodiseoswap::factory::ExecuteMsg as DaodiseoswapFactoryExecuteMsg;
+use daodiseoswap::querier::query_pair_info;
+use daodiseoswap::token::InstantiateMsg as TokenInstantiateMsg;
 
 const MIRROR_TOKEN_WEIGHT: u32 = 300u32;
 const NORMAL_TOKEN_WEIGHT: u32 = 30u32;
@@ -50,7 +50,7 @@ pub fn instantiate(
             mirror_token: CanonicalAddr::from(vec![]),
             mint_contract: CanonicalAddr::from(vec![]),
             oracle_contract: CanonicalAddr::from(vec![]),
-            terraswap_factory: CanonicalAddr::from(vec![]),
+            daodiseoswap_factory: CanonicalAddr::from(vec![]),
             staking_contract: CanonicalAddr::from(vec![]),
             commission_collector: CanonicalAddr::from(vec![]),
             token_code_id: msg.token_code_id,
@@ -74,7 +74,7 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             mirror_token,
             mint_contract,
             oracle_contract,
-            terraswap_factory,
+            daodiseoswap_factory,
             staking_contract,
             commission_collector,
         } => post_initialize(
@@ -84,7 +84,7 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             mirror_token,
             mint_contract,
             oracle_contract,
-            terraswap_factory,
+            daodiseoswap_factory,
             staking_contract,
             commission_collector,
         ),
@@ -128,7 +128,7 @@ pub fn post_initialize(
     mirror_token: String,
     mint_contract: String,
     oracle_contract: String,
-    terraswap_factory: String,
+    daodiseoswap_factory: String,
     staking_contract: String,
     commission_collector: String,
 ) -> StdResult<Response> {
@@ -141,7 +141,7 @@ pub fn post_initialize(
     config.mirror_token = deps.api.addr_canonicalize(&mirror_token)?;
     config.mint_contract = deps.api.addr_canonicalize(&mint_contract)?;
     config.oracle_contract = deps.api.addr_canonicalize(&oracle_contract)?;
-    config.terraswap_factory = deps.api.addr_canonicalize(&terraswap_factory)?;
+    config.daodiseoswap_factory = deps.api.addr_canonicalize(&daodiseoswap_factory)?;
     config.staking_contract = deps.api.addr_canonicalize(&staking_contract)?;
     config.commission_collector = deps.api.addr_canonicalize(&commission_collector)?;
     store_config(deps.storage, &config)?;
@@ -153,7 +153,7 @@ pub fn post_initialize(
 
     let mir_addr = deps.api.addr_humanize(&config.mirror_token)?;
 
-    terraswap_creation_hook(deps, env, mir_addr)
+    daodiseoswap_creation_hook(deps, env, mir_addr)
 }
 
 pub fn update_config(
@@ -238,8 +238,8 @@ pub fn pass_command(
 ///    2-1. Initialize distribution info
 ///    2-2. Register asset to mint contract
 ///    2-3. Register asset and oracle feeder to oracle contract
-///    2-4. Create terraswap pair through terraswap factory
-/// 3. Call `TerraswapCreationHook`
+///    2-4. Create daodiseoswap pair through daodiseoswap factory
+/// 3. Call `DaodiseoswapCreationHook`
 ///    3-1. Register asset to staking contract
 pub fn whitelist(
     deps: DepsMut,
@@ -317,7 +317,7 @@ pub fn reply(deps: DepsMut, env: Env, msg: Reply) -> StdResult<Response> {
             // fetch saved asset_token from temp state
             let asset_token = read_tmp_asset(deps.storage)?;
 
-            terraswap_creation_hook(deps, env, asset_token)
+            daodiseoswap_creation_hook(deps, env, asset_token)
         }
         _ => Err(StdError::generic_err("reply id is invalid")),
     }
@@ -327,7 +327,7 @@ pub fn reply(deps: DepsMut, env: Env, msg: Reply) -> StdResult<Response> {
 /// 1. Initialize distribution info
 /// 2. Register asset to mint contract
 /// 3. Register asset and oracle feeder to oracle contract
-/// 4. Create terraswap pair through terraswap factory with `TerraswapCreationHook`
+/// 4. Create daodiseoswap pair through daodiseoswap factory with `DaodiseoswapCreationHook`
 pub fn token_creation_hook(
     deps: DepsMut,
     env: Env,
@@ -392,7 +392,7 @@ pub fn token_creation_hook(
 
     // Register asset to mint contract
     // Register asset to oracle contract
-    // Create terraswap pair
+    // Create daodiseoswap pair
     Ok(Response::new()
         .add_messages(vec![
             CosmosMsg::Wasm(WasmMsg::Execute {
@@ -415,14 +415,14 @@ pub fn token_creation_hook(
             }),
         ])
         .add_submessage(SubMsg {
-            // create terraswap pair
+            // create daodiseoswap pair
             msg: WasmMsg::Execute {
                 contract_addr: deps
                     .api
-                    .addr_humanize(&config.terraswap_factory)?
+                    .addr_humanize(&config.daodiseoswap_factory)?
                     .to_string(),
                 funds: vec![],
-                msg: to_binary(&TerraswapFactoryExecuteMsg::CreatePair {
+                msg: to_binary(&DaodiseoswapFactoryExecuteMsg::CreatePair {
                     asset_infos: [
                         AssetInfo::NativeToken {
                             denom: config.base_denom,
@@ -447,10 +447,10 @@ pub fn token_creation_hook(
         ))
 }
 
-/// TerraswapCreationHook
+/// DaodiseoswapCreationHook
 /// 1. Register asset and liquidity(LP) token to staking contract
-pub fn terraswap_creation_hook(deps: DepsMut, _env: Env, asset_token: Addr) -> StdResult<Response> {
-    // Now terraswap contract is already created,
+pub fn daodiseoswap_creation_hook(deps: DepsMut, _env: Env, asset_token: Addr) -> StdResult<Response> {
+    // Now daodiseoswap contract is already created,
     // and liquidity token also created
     let config: Config = read_config(deps.storage)?;
 
@@ -463,10 +463,10 @@ pub fn terraswap_creation_hook(deps: DepsMut, _env: Env, asset_token: Addr) -> S
         },
     ];
 
-    // Load terraswap pair info
+    // Load daodiseoswap pair info
     let pair_info: PairInfo = query_pair_info(
         &deps.querier,
-        deps.api.addr_humanize(&config.terraswap_factory)?,
+        deps.api.addr_humanize(&config.daodiseoswap_factory)?,
         &asset_infos,
     )?;
 
@@ -734,9 +734,9 @@ pub fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
         mirror_token: deps.api.addr_humanize(&state.mirror_token)?.to_string(),
         mint_contract: deps.api.addr_humanize(&state.mint_contract)?.to_string(),
         oracle_contract: deps.api.addr_humanize(&state.oracle_contract)?.to_string(),
-        terraswap_factory: deps
+        daodiseoswap_factory: deps
             .api
-            .addr_humanize(&state.terraswap_factory)?
+            .addr_humanize(&state.daodiseoswap_factory)?
             .to_string(),
         staking_contract: deps.api.addr_humanize(&state.staking_contract)?.to_string(),
         commission_collector: deps

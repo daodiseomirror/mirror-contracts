@@ -12,7 +12,7 @@ use crate::state::init_last_order_id;
 
 use cw20::Cw20ReceiveMsg;
 use mirror_protocol::limit_order::{Cw20HookMsg, ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg};
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(

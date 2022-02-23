@@ -9,7 +9,7 @@ use crate::state::{Config, KEY_CONFIG};
 pub struct LegacyConfig {
     pub owner: CanonicalAddr,
     pub distribution_contract: CanonicalAddr,
-    pub terraswap_factory: CanonicalAddr,
+    pub daodiseoswap_factory: CanonicalAddr,
     pub mirror_token: CanonicalAddr,
     pub base_denom: String,
     pub aust_token: CanonicalAddr,
@@ -25,7 +25,7 @@ pub fn migrate_config(storage: &mut dyn Storage, lunax_token: CanonicalAddr) -> 
     let config = Config {
         owner: legacy_config.owner,
         distribution_contract: legacy_config.distribution_contract,
-        terraswap_factory: legacy_config.terraswap_factory,
+        daodiseoswap_factory: legacy_config.daodiseoswap_factory,
         mirror_token: legacy_config.mirror_token,
         base_denom: legacy_config.base_denom,
         aust_token: legacy_config.aust_token,
@@ -57,7 +57,7 @@ mod migrate_tests {
         legacy_config_store
             .save(&LegacyConfig {
                 owner: deps.api.addr_canonicalize("owner0000").unwrap(),
-                terraswap_factory: deps.api.addr_canonicalize("terraswapfactory").unwrap(),
+                daodiseoswap_factory: deps.api.addr_canonicalize("daodiseoswapfactory").unwrap(),
                 distribution_contract: deps.api.addr_canonicalize("gov0000").unwrap(),
                 mirror_token: deps.api.addr_canonicalize("mirror0000").unwrap(),
                 base_denom: "uusd".to_string(),
@@ -80,7 +80,7 @@ mod migrate_tests {
             config,
             Config {
                 owner: deps.api.addr_canonicalize("owner0000").unwrap(),
-                terraswap_factory: deps.api.addr_canonicalize("terraswapfactory").unwrap(),
+                daodiseoswap_factory: deps.api.addr_canonicalize("daodiseoswapfactory").unwrap(),
                 distribution_contract: deps.api.addr_canonicalize("gov0000").unwrap(),
                 mirror_token: deps.api.addr_canonicalize("mirror0000").unwrap(),
                 base_denom: "uusd".to_string(),

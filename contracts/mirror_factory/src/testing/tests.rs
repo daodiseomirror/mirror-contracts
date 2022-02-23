@@ -24,9 +24,9 @@ use mirror_protocol::staking::ExecuteMsg as StakingExecuteMsg;
 
 use protobuf::Message;
 
-use terraswap::asset::AssetInfo;
-use terraswap::factory::ExecuteMsg as TerraswapFactoryExecuteMsg;
-use terraswap::token::InstantiateMsg as TokenInstantiateMsg;
+use daodiseoswap::asset::AssetInfo;
+use daodiseoswap::factory::ExecuteMsg as DaodiseoswapFactoryExecuteMsg;
+use daodiseoswap::token::InstantiateMsg as TokenInstantiateMsg;
 
 fn mock_env_time(time: u64) -> Env {
     let mut env = mock_env();
@@ -41,7 +41,7 @@ static BASE_DENOM: &str = "uusd";
 fn proper_initialization() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -59,7 +59,7 @@ fn proper_initialization() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info.clone(), msg).unwrap();
 
@@ -71,7 +71,7 @@ fn proper_initialization() {
         staking_contract: "staking0001".to_string(),
         commission_collector: "collector0001".to_string(),
         oracle_contract: "oracle0001".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap_err();
 
@@ -87,7 +87,7 @@ fn proper_initialization() {
             staking_contract: "staking0000".to_string(),
             commission_collector: "collector0000".to_string(),
             oracle_contract: "oracle0000".to_string(),
-            terraswap_factory: "terraswapfactory".to_string(),
+            daodiseoswap_factory: "daodiseoswapfactory".to_string(),
             base_denom: BASE_DENOM.to_string(),
             token_code_id: TOKEN_CODE_ID,
             genesis_time: 1_571_797_419,
@@ -100,7 +100,7 @@ fn proper_initialization() {
 fn test_update_config() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -118,7 +118,7 @@ fn test_update_config() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -142,7 +142,7 @@ fn test_update_config() {
             staking_contract: "staking0000".to_string(),
             commission_collector: "collector0000".to_string(),
             oracle_contract: "oracle0000".to_string(),
-            terraswap_factory: "terraswapfactory".to_string(),
+            daodiseoswap_factory: "daodiseoswapfactory".to_string(),
             base_denom: BASE_DENOM.to_string(),
             token_code_id: TOKEN_CODE_ID,
             genesis_time: 1_571_797_419,
@@ -170,7 +170,7 @@ fn test_update_config() {
             staking_contract: "staking0000".to_string(),
             commission_collector: "collector0000".to_string(),
             oracle_contract: "oracle0000".to_string(),
-            terraswap_factory: "terraswapfactory".to_string(),
+            daodiseoswap_factory: "daodiseoswapfactory".to_string(),
             base_denom: BASE_DENOM.to_string(),
             token_code_id: TOKEN_CODE_ID + 1,
             genesis_time: 1_571_797_419,
@@ -197,7 +197,7 @@ fn test_update_config() {
 fn test_update_weight() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -215,7 +215,7 @@ fn test_update_weight() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -269,7 +269,7 @@ fn test_update_weight() {
 fn test_whitelist() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -287,7 +287,7 @@ fn test_whitelist() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -379,7 +379,7 @@ fn test_whitelist() {
 fn test_token_creation_hook() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -397,7 +397,7 @@ fn test_token_creation_hook() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -463,9 +463,9 @@ fn test_token_creation_hook() {
             })),
             SubMsg {
                 msg: WasmMsg::Execute {
-                    contract_addr: "terraswapfactory".to_string(),
+                    contract_addr: "daodiseoswapfactory".to_string(),
                     funds: vec![],
-                    msg: to_binary(&TerraswapFactoryExecuteMsg::CreatePair {
+                    msg: to_binary(&DaodiseoswapFactoryExecuteMsg::CreatePair {
                         asset_infos: [
                             AssetInfo::NativeToken {
                                 denom: BASE_DENOM.to_string(),
@@ -511,7 +511,7 @@ fn test_token_creation_hook() {
 fn test_token_creation_hook_without_weight() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -529,7 +529,7 @@ fn test_token_creation_hook_without_weight() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -595,9 +595,9 @@ fn test_token_creation_hook_without_weight() {
             })),
             SubMsg {
                 msg: WasmMsg::Execute {
-                    contract_addr: "terraswapfactory".to_string(),
+                    contract_addr: "daodiseoswapfactory".to_string(),
                     funds: vec![],
-                    msg: to_binary(&TerraswapFactoryExecuteMsg::CreatePair {
+                    msg: to_binary(&DaodiseoswapFactoryExecuteMsg::CreatePair {
                         asset_infos: [
                             AssetInfo::NativeToken {
                                 denom: BASE_DENOM.to_string(),
@@ -632,9 +632,9 @@ fn test_token_creation_hook_without_weight() {
 }
 
 #[test]
-fn test_terraswap_creation_hook() {
+fn test_daodiseoswap_creation_hook() {
     let mut deps = mock_dependencies(&[]);
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&"uusdmirror0000".to_string(), &"MIRLP000".to_string()),
         (&"uusdasset0000".to_string(), &"LP0000".to_string()),
     ]);
@@ -655,7 +655,7 @@ fn test_terraswap_creation_hook() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -723,7 +723,7 @@ fn test_terraswap_creation_hook() {
 #[test]
 fn test_distribute() {
     let mut deps = mock_dependencies(&[]);
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&"uusdmirror0000".to_string(), &"MIRLP000".to_string()),
         (&"uusdasset0000".to_string(), &"LP0000".to_string()),
         (&"uusdasset0001".to_string(), &"LP0001".to_string()),
@@ -748,7 +748,7 @@ fn test_distribute() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -1075,7 +1075,7 @@ fn test_distribute_split() {
         .unwrap()
         .to_string();
 
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&format!("uusd{}", asset0), &"LP0000".to_string()),
         (&format!("uusd{}", asset1), &"LP0001".to_string()),
         (&format!("uusd{}", asset2), &"LP0002".to_string()),
@@ -1110,7 +1110,7 @@ fn test_distribute_split() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -1199,7 +1199,7 @@ fn test_distribute_split() {
 #[test]
 fn test_revocation() {
     let mut deps = mock_dependencies(&[]);
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&"uusdasset0000".to_string(), &"LP0000".to_string()),
         (&"uusdasset0001".to_string(), &"LP0001".to_string()),
         (&"uusdmirror0000".to_string(), &"MIRLP000".to_string()),
@@ -1229,7 +1229,7 @@ fn test_revocation() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -1302,7 +1302,7 @@ fn test_revocation() {
 #[test]
 fn test_migration() {
     let mut deps = mock_dependencies(&[]);
-    deps.querier.with_terraswap_pairs(&[
+    deps.querier.with_daodiseoswap_pairs(&[
         (&"uusdasset0000".to_string(), &"LP0000".to_string()),
         (&"uusdmirror0000".to_string(), &"MIRLP000".to_string()),
     ]);
@@ -1323,7 +1323,7 @@ fn test_migration() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -1397,7 +1397,7 @@ fn test_migration() {
 fn test_whitelist_pre_ipo_asset() {
     let mut deps = mock_dependencies(&[]);
     deps.querier
-        .with_terraswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
+        .with_daodiseoswap_pairs(&[(&"uusdmirror0000".to_string(), &"MIRLP0000".to_string())]);
 
     let msg = InstantiateMsg {
         base_denom: BASE_DENOM.to_string(),
@@ -1415,7 +1415,7 @@ fn test_whitelist_pre_ipo_asset() {
         staking_contract: "staking0000".to_string(),
         commission_collector: "collector0000".to_string(),
         oracle_contract: "oracle0000".to_string(),
-        terraswap_factory: "terraswapfactory".to_string(),
+        daodiseoswap_factory: "daodiseoswapfactory".to_string(),
     };
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
@@ -1528,9 +1528,9 @@ fn test_whitelist_pre_ipo_asset() {
             })),
             SubMsg {
                 msg: WasmMsg::Execute {
-                    contract_addr: "terraswapfactory".to_string(),
+                    contract_addr: "daodiseoswapfactory".to_string(),
                     funds: vec![],
-                    msg: to_binary(&TerraswapFactoryExecuteMsg::CreatePair {
+                    msg: to_binary(&DaodiseoswapFactoryExecuteMsg::CreatePair {
                         asset_infos: [
                             AssetInfo::NativeToken {
                                 denom: BASE_DENOM.to_string(),

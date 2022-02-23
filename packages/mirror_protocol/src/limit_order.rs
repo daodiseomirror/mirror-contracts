@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use cosmwasm_std::Uint128;
 use cw20::Cw20ReceiveMsg;
-use terraswap::asset::Asset;
+use daodiseoswap::asset::Asset;
 
 use crate::common::OrderBy;
 

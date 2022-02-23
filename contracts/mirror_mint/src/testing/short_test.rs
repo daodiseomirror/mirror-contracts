@@ -11,7 +11,7 @@ use mirror_protocol::mint::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, PositionResponse, QueryMsg, ShortParams,
 };
 use mirror_protocol::staking::ExecuteMsg as StakingExecuteMsg;
-use terraswap::{
+use daodiseoswap::{
     asset::{Asset, AssetInfo},
     pair::Cw20HookMsg as PairCw20HookMsg,
 };
@@ -47,7 +47,7 @@ fn open_short_position() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -80,8 +80,8 @@ fn open_short_position() {
     let info = mock_info("owner0000", &[]);
     let _res = execute(deps.as_mut(), env, info, msg).unwrap();
 
-    // register terraswap pair
-    deps.querier.with_terraswap_pair(&[(
+    // register daodiseoswap pair
+    deps.querier.with_daodiseoswap_pair(&[(
         &"uusd".to_string(),
         &"asset0000".to_string(),
         &"pair0000".to_string(),
@@ -222,7 +222,7 @@ fn mint_short_position() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -253,8 +253,8 @@ fn mint_short_position() {
     let info = mock_info("owner0000", &[]);
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
-    // register terraswap pair
-    deps.querier.with_terraswap_pair(&[(
+    // register daodiseoswap pair
+    deps.querier.with_daodiseoswap_pair(&[(
         &"uusd".to_string(),
         &"asset0000".to_string(),
         &"pair0000".to_string(),
@@ -377,7 +377,7 @@ fn burn_short_position() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -407,8 +407,8 @@ fn burn_short_position() {
     let info = mock_info("owner0000", &[]);
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
-    // register terraswap pair
-    deps.querier.with_terraswap_pair(&[(
+    // register daodiseoswap pair
+    deps.querier.with_daodiseoswap_pair(&[(
         &"uusd".to_string(),
         &"asset0000".to_string(),
         &"pair0000".to_string(),
@@ -513,7 +513,7 @@ fn auction_short_position() {
         collector: "collector0000".to_string(),
         staking: "staking0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -543,8 +543,8 @@ fn auction_short_position() {
     let info = mock_info("owner0000", &[]);
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
-    // register terraswap pair
-    deps.querier.with_terraswap_pair(&[(
+    // register daodiseoswap pair
+    deps.querier.with_daodiseoswap_pair(&[(
         &"uusd".to_string(),
         &"asset0000".to_string(),
         &"pair0000".to_string(),
@@ -663,7 +663,7 @@ fn close_short_position() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -683,8 +683,8 @@ fn close_short_position() {
     let info = mock_info("owner0000", &[]);
     let _res = execute(deps.as_mut(), mock_env(), info, msg).unwrap();
 
-    // register terraswap pair
-    deps.querier.with_terraswap_pair(&[(
+    // register daodiseoswap pair
+    deps.querier.with_daodiseoswap_pair(&[(
         &"uusd".to_string(),
         &"asset0000".to_string(),
         &"pair0000".to_string(),

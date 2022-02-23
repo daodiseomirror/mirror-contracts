@@ -11,7 +11,7 @@
     "owner",
     "protocol_fee_rate",
     "staking",
-    "terraswap_factory",
+    "daodiseoswap_factory",
     "token_code_id"
   ],
   "properties": {
@@ -39,7 +39,7 @@
     "staking": {
       "type": "string"
     },
-    "terraswap_factory": {
+    "daodiseoswap_factory": {
       "type": "string"
     },
     "token_code_id": {

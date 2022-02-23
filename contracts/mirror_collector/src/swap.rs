@@ -9,10 +9,10 @@ use cw20::Cw20ExecuteMsg;
 use mirror_protocol::collector::ExecuteMsg;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
-use terra_cosmwasm::{create_swap_msg, TerraMsgWrapper};
-use terraswap::asset::{Asset, AssetInfo, PairInfo};
-use terraswap::pair::{Cw20HookMsg as TerraswapCw20HookMsg, ExecuteMsg as TerraswapExecuteMsg};
-use terraswap::querier::{query_balance, query_pair_info, query_token_balance};
+use daodiseo_cosmwasm::{create_swap_msg, DaodiseoMsgWrapper};
+use daodiseoswap::asset::{Asset, AssetInfo, PairInfo};
+use daodiseoswap::pair::{Cw20HookMsg as DaodiseoswapCw20HookMsg, ExecuteMsg as DaodiseoswapExecuteMsg};
+use daodiseoswap::querier::{query_balance, query_pair_info, query_token_balance};
 
 const LUNA_DENOM: &str = "uluna";
 const AMM_MAX_ALLOWED_SLIPPAGE: &str = "0.5";
@@ -31,7 +31,7 @@ pub fn convert(
     deps: DepsMut,
     env: Env,
     asset_token: Addr,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     let config: Config = read_config(deps.storage)?;
     let asset_token_raw = deps.api.addr_canonicalize(asset_token.as_str())?;
 
@@ -51,8 +51,8 @@ fn direct_swap(
     env: Env,
     config: &Config,
     asset_token: Addr,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
-    let terraswap_factory_addr = deps.api.addr_humanize(&config.terraswap_factory)?;
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
+    let daodiseoswap_factory_addr = deps.api.addr_humanize(&config.daodiseoswap_factory)?;
     let asset_token_raw = deps.api.addr_canonicalize(asset_token.as_str())?;
 
     let pair_addr: String =
@@ -63,7 +63,7 @@ fn direct_swap(
         } else {
             let pair_info: PairInfo = query_pair_info(
                 &deps.querier,
-                terraswap_factory_addr,
+                daodiseoswap_factory_addr,
                 &[
                     AssetInfo::NativeToken {
                         denom: config.base_denom.clone(),
@@ -77,7 +77,7 @@ fn direct_swap(
             pair_info.contract_addr
         };
 
-    let mut messages: Vec<CosmosMsg<TerraMsgWrapper>> = vec![];
+    let mut messages: Vec<CosmosMsg<DaodiseoMsgWrapper>> = vec![];
     if config.mirror_token == asset_token_raw {
         // collateral token => MIR token
         let amount = query_balance(
@@ -98,7 +98,7 @@ fn direct_swap(
             let amount = (swap_asset.deduct_tax(&deps.querier)?).amount;
             messages = vec![CosmosMsg::Wasm(WasmMsg::Execute {
                 contract_addr: pair_addr,
-                msg: to_binary(&TerraswapExecuteMsg::Swap {
+                msg: to_binary(&DaodiseoswapExecuteMsg::Swap {
                     offer_asset: Asset {
                         amount,
                         ..swap_asset
@@ -123,8 +123,8 @@ fn direct_swap(
                 msg: to_binary(&Cw20ExecuteMsg::Send {
                     contract: pair_addr,
                     amount,
-                    msg: to_binary(&TerraswapCw20HookMsg::Swap {
-                        max_spread: None, // currently all mAsset swaps are on terraswap, so we set max_spread to None
+                    msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
+                        max_spread: None, // currently all mAsset swaps are on daodiseoswap, so we set max_spread to None
                         belief_price: None,
                         to: None,
                     })?,
@@ -148,10 +148,10 @@ fn anchor_redeem(
     env: Env,
     config: &Config,
     asset_token: Addr,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     let amount = query_token_balance(&deps.querier, asset_token.clone(), env.contract.address)?;
 
-    let mut messages: Vec<CosmosMsg<TerraMsgWrapper>> = vec![];
+    let mut messages: Vec<CosmosMsg<DaodiseoMsgWrapper>> = vec![];
     if !amount.is_zero() {
         messages.push(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: asset_token.to_string(),
@@ -176,12 +176,12 @@ fn lunax_swap(
     env: Env,
     config: &Config,
     asset_token: Addr,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
-    let terraswap_factory_addr = deps.api.addr_humanize(&config.terraswap_factory)?;
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
+    let daodiseoswap_factory_addr = deps.api.addr_humanize(&config.daodiseoswap_factory)?;
 
     let pair_info: PairInfo = query_pair_info(
         &deps.querier,
-        terraswap_factory_addr,
+        daodiseoswap_factory_addr,
         &[
             AssetInfo::NativeToken {
                 denom: LUNA_DENOM.to_string(),
@@ -198,14 +198,14 @@ fn lunax_swap(
         env.contract.address.clone(),
     )?;
 
-    let mut messages: Vec<CosmosMsg<TerraMsgWrapper>> = vec![];
+    let mut messages: Vec<CosmosMsg<DaodiseoMsgWrapper>> = vec![];
     if !amount.is_zero() {
         messages.push(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: asset_token.to_string(),
             msg: to_binary(&Cw20ExecuteMsg::Send {
                 contract: pair_info.contract_addr,
                 amount,
-                msg: to_binary(&TerraswapCw20HookMsg::Swap {
+                msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
                     max_spread: None,
                     belief_price: None,
                     to: None,
@@ -232,12 +232,12 @@ fn bluna_swap(
     env: Env,
     config: &Config,
     asset_token: Addr,
-) -> Result<Response<TerraMsgWrapper>, ContractError> {
-    let terraswap_factory_addr = deps.api.addr_humanize(&config.terraswap_factory)?;
+) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
+    let daodiseoswap_factory_addr = deps.api.addr_humanize(&config.daodiseoswap_factory)?;
 
     let pair_info: PairInfo = query_pair_info(
         &deps.querier,
-        terraswap_factory_addr,
+        daodiseoswap_factory_addr,
         &[
             AssetInfo::NativeToken {
                 denom: LUNA_DENOM.to_string(),
@@ -254,14 +254,14 @@ fn bluna_swap(
         env.contract.address.clone(),
     )?;
 
-    let mut messages: Vec<CosmosMsg<TerraMsgWrapper>> = vec![];
+    let mut messages: Vec<CosmosMsg<DaodiseoMsgWrapper>> = vec![];
     if !amount.is_zero() {
         messages.push(CosmosMsg::Wasm(WasmMsg::Execute {
             contract_addr: asset_token.to_string(),
             msg: to_binary(&Cw20ExecuteMsg::Send {
                 contract: pair_info.contract_addr,
                 amount,
-                msg: to_binary(&TerraswapCw20HookMsg::Swap {
+                msg: to_binary(&DaodiseoswapCw20HookMsg::Swap {
                     max_spread: None,
                     belief_price: None,
                     to: None,
@@ -283,12 +283,12 @@ fn bluna_swap(
     ]))
 }
 
-pub fn luna_swap_hook(deps: DepsMut, env: Env) -> Result<Response<TerraMsgWrapper>, ContractError> {
+pub fn luna_swap_hook(deps: DepsMut, env: Env) -> Result<Response<DaodiseoMsgWrapper>, ContractError> {
     let config: Config = read_config(deps.storage)?;
 
     let amount = query_balance(&deps.querier, env.contract.address, "uluna".to_string())?;
 
-    let mut messages: Vec<CosmosMsg<TerraMsgWrapper>> = vec![];
+    let mut messages: Vec<CosmosMsg<DaodiseoMsgWrapper>> = vec![];
     if !amount.is_zero() {
         let offer_coin = Coin {
             amount,

@@ -32,7 +32,7 @@ pub fn instantiate(
             mirror_token: deps.api.addr_canonicalize(&msg.mirror_token)?,
             mint_contract: deps.api.addr_canonicalize(&msg.mint_contract)?,
             oracle_contract: deps.api.addr_canonicalize(&msg.oracle_contract)?,
-            terraswap_factory: deps.api.addr_canonicalize(&msg.terraswap_factory)?,
+            daodiseoswap_factory: deps.api.addr_canonicalize(&msg.daodiseoswap_factory)?,
             base_denom: msg.base_denom,
             premium_min_update_interval: msg.premium_min_update_interval,
             short_reward_contract: deps.api.addr_canonicalize(&msg.short_reward_contract)?,
@@ -354,9 +354,9 @@ pub fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
         mirror_token: deps.api.addr_humanize(&state.mirror_token)?.to_string(),
         mint_contract: deps.api.addr_humanize(&state.mint_contract)?.to_string(),
         oracle_contract: deps.api.addr_humanize(&state.oracle_contract)?.to_string(),
-        terraswap_factory: deps
+        daodiseoswap_factory: deps
             .api
-            .addr_humanize(&state.terraswap_factory)?
+            .addr_humanize(&state.daodiseoswap_factory)?
             .to_string(),
         base_denom: state.base_denom,
         premium_min_update_interval: state.premium_min_update_interval,

@@ -18,7 +18,7 @@ pub struct Config {
     pub mirror_token: CanonicalAddr,
     pub mint_contract: CanonicalAddr,
     pub oracle_contract: CanonicalAddr,
-    pub terraswap_factory: CanonicalAddr,
+    pub daodiseoswap_factory: CanonicalAddr,
     pub base_denom: String,
     pub premium_min_update_interval: u64,
     pub short_reward_contract: CanonicalAddr,

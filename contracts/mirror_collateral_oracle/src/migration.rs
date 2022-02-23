@@ -24,8 +24,8 @@ pub enum LegacySourceType {
     FixedPrice {
         price: Decimal,
     },
-    Terraswap {
-        terraswap_pair_addr: String,
+    Daodiseoswap {
+        daodiseoswap_pair_addr: String,
         intermediate_denom: Option<String>,
     },
     AnchorMarket {
@@ -63,11 +63,11 @@ pub fn migrate_collateral_infos(storage: &mut dyn Storage) -> StdResult<()> {
             }
             LegacySourceType::FixedPrice { price } => SourceType::FixedPrice { price },
             LegacySourceType::Native { native_denom } => SourceType::Native { native_denom },
-            LegacySourceType::Terraswap {
-                terraswap_pair_addr,
+            LegacySourceType::Daodiseoswap {
+                daodiseoswap_pair_addr,
                 intermediate_denom,
-            } => SourceType::Terraswap {
-                terraswap_pair_addr,
+            } => SourceType::Daodiseoswap {
+                daodiseoswap_pair_addr,
                 intermediate_denom,
             },
         };

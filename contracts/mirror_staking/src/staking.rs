@@ -11,9 +11,9 @@ use crate::state::{
 
 use cw20::Cw20ExecuteMsg;
 use mirror_protocol::staking::ExecuteMsg;
-use terraswap::asset::{Asset, AssetInfo, PairInfo};
-use terraswap::pair::ExecuteMsg as PairExecuteMsg;
-use terraswap::querier::{query_pair_info, query_token_balance};
+use daodiseoswap::asset::{Asset, AssetInfo, PairInfo};
+use daodiseoswap::pair::ExecuteMsg as PairExecuteMsg;
+use daodiseoswap::querier::{query_pair_info, query_token_balance};
 
 pub fn bond(
     deps: DepsMut,
@@ -147,7 +147,7 @@ pub fn auto_stake(
     slippage_tolerance: Option<Decimal>,
 ) -> StdResult<Response> {
     let config: Config = read_config(deps.storage)?;
-    let terraswap_factory: Addr = deps.api.addr_humanize(&config.terraswap_factory)?;
+    let daodiseoswap_factory: Addr = deps.api.addr_humanize(&config.daodiseoswap_factory)?;
 
     let mut native_asset_op: Option<Asset> = None;
     let mut token_info_op: Option<(Addr, Uint128)> = None;
@@ -175,7 +175,7 @@ pub fn auto_stake(
 
     // query pair info to obtain pair contract address
     let asset_infos: [AssetInfo; 2] = [assets[0].info.clone(), assets[1].info.clone()];
-    let terraswap_pair: PairInfo = query_pair_info(&deps.querier, terraswap_factory, &asset_infos)?;
+    let daodiseoswap_pair: PairInfo = query_pair_info(&deps.querier, daodiseoswap_factory, &asset_infos)?;
 
     // assert the token and lp token match with pool info
     let pool_info: PoolInfo = read_pool_info(
@@ -186,7 +186,7 @@ pub fn auto_stake(
     if pool_info.staking_token
         != deps
             .api
-            .addr_canonicalize(terraswap_pair.liquidity_token.as_str())?
+            .addr_canonicalize(daodiseoswap_pair.liquidity_token.as_str())?
     {
         return Err(StdError::generic_err("Invalid staking token"));
     }
@@ -194,7 +194,7 @@ pub fn auto_stake(
     // get current lp token amount to later compute the recived amount
     let prev_staking_token_amount = query_token_balance(
         &deps.querier,
-        deps.api.addr_validate(&terraswap_pair.liquidity_token)?,
+        deps.api.addr_validate(&daodiseoswap_pair.liquidity_token)?,
         env.contract.address.clone(),
     )?;
 
@@ -219,14 +219,14 @@ pub fn auto_stake(
             CosmosMsg::Wasm(WasmMsg::Execute {
                 contract_addr: token_addr.to_string(),
                 msg: to_binary(&Cw20ExecuteMsg::IncreaseAllowance {
-                    spender: terraswap_pair.contract_addr.to_string(),
+                    spender: daodiseoswap_pair.contract_addr.to_string(),
                     amount: token_amount,
                     expires: None,
                 })?,
                 funds: vec![],
             }),
             CosmosMsg::Wasm(WasmMsg::Execute {
-                contract_addr: terraswap_pair.contract_addr.to_string(),
+                contract_addr: daodiseoswap_pair.contract_addr.to_string(),
                 msg: to_binary(&PairExecuteMsg::ProvideLiquidity {
                     assets: [
                         Asset {
@@ -252,7 +252,7 @@ pub fn auto_stake(
                 contract_addr: env.contract.address.to_string(),
                 msg: to_binary(&ExecuteMsg::AutoStakeHook {
                     asset_token: token_addr.to_string(),
-                    staking_token: terraswap_pair.liquidity_token,
+                    staking_token: daodiseoswap_pair.liquidity_token,
                     staker_addr: info.sender.to_string(),
                     prev_staking_token_amount,
                 })?,

@@ -260,13 +260,13 @@
         {
           "type": "object",
           "required": [
-            "terraswap"
+            "daodiseoswap"
           ],
           "properties": {
-            "terraswap": {
+            "daodiseoswap": {
               "type": "object",
               "required": [
-                "terraswap_pair_addr"
+                "daodiseoswap_pair_addr"
               ],
               "properties": {
                 "intermediate_denom": {
@@ -275,7 +275,7 @@
                     "null"
                   ]
                 },
-                "terraswap_pair_addr": {
+                "daodiseoswap_pair_addr": {
                   "type": "string"
                 }
               }

@@ -18,7 +18,7 @@ pub enum ExecuteMsg {
     ///////////////////
     PostInitialize {
         owner: String,
-        terraswap_factory: String,
+        daodiseoswap_factory: String,
         mirror_token: String,
         staking_contract: String,
         oracle_contract: String,
@@ -92,7 +92,7 @@ pub struct ConfigResponse {
     pub staking_contract: String,
     pub commission_collector: String,
     pub oracle_contract: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub token_code_id: u64,
     pub base_denom: String,
     pub genesis_time: u64,

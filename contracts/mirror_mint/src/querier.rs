@@ -7,7 +7,7 @@ use mirror_protocol::collateral_oracle::{
     CollateralPriceResponse, QueryMsg as CollateralOracleQueryMsg,
 };
 use mirror_protocol::oracle::{FeederResponse, PriceResponse, QueryMsg as OracleQueryMsg};
-use terraswap::asset::AssetInfoRaw;
+use daodiseoswap::asset::AssetInfoRaw;
 
 const PRICE_EXPIRE_TIME: u64 = 60;
 

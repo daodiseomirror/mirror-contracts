@@ -10,11 +10,11 @@ use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::collections::HashMap;
 use std::str::FromStr;
-use terra_cosmwasm::{
-    ExchangeRateItem, ExchangeRatesResponse, TerraQuery, TerraQueryWrapper, TerraRoute,
+use daodiseo_cosmwasm::{
+    ExchangeRateItem, ExchangeRatesResponse, DaodiseoQuery, DaodiseoQueryWrapper, DaodiseoRoute,
 };
-use terraswap::asset::{Asset, AssetInfo};
-use terraswap::pair::PoolResponse;
+use daodiseoswap::asset::{Asset, AssetInfo};
+use daodiseoswap::pair::PoolResponse;
 
 /// mock_dependencies is a drop-in replacement for cosmwasm_std::testing::mock_dependencies
 /// this uses our CustomQuerier.
@@ -32,9 +32,9 @@ pub fn mock_dependencies(
 }
 
 pub struct WasmMockQuerier {
-    base: MockQuerier<TerraQueryWrapper>,
+    base: MockQuerier<DaodiseoQueryWrapper>,
     oracle_price_querier: OraclePriceQuerier,
-    terraswap_pools_querier: TerraswapPoolsQuerier,
+    daodiseoswap_pools_querier: DaodiseoswapPoolsQuerier,
 }
 
 #[derive(Clone, Default)]
@@ -63,14 +63,14 @@ pub(crate) fn oracle_price_to_map(
 }
 
 #[derive(Clone, Default)]
-pub struct TerraswapPoolsQuerier {
+pub struct DaodiseoswapPoolsQuerier {
     pools: HashMap<String, (String, Uint128, String, Uint128)>,
 }
 
-impl TerraswapPoolsQuerier {
+impl DaodiseoswapPoolsQuerier {
     #[allow(clippy::type_complexity)]
     pub fn new(pools: &[(&String, (&String, &Uint128, &String, &Uint128))]) -> Self {
-        TerraswapPoolsQuerier {
+        DaodiseoswapPoolsQuerier {
             pools: pools_to_map(pools),
         }
     }
@@ -93,7 +93,7 @@ pub(crate) fn pools_to_map(
 impl Querier for WasmMockQuerier {
     fn raw_query(&self, bin_request: &[u8]) -> QuerierResult {
         // MockQuerier doesn't support Custom, so we ignore it completely here
-        let request: QueryRequest<TerraQueryWrapper> = match from_slice(bin_request) {
+        let request: QueryRequest<DaodiseoQueryWrapper> = match from_slice(bin_request) {
             Ok(v) => v,
             Err(e) => {
                 return SystemResult::Err(SystemError::InvalidRequest {
@@ -118,7 +118,7 @@ pub struct ReferenceData {
 #[serde(rename_all = "snake_case")]
 pub struct EpochStateResponse {
     exchange_rate: Decimal256,
-    aterra_supply: Uint256,
+    adaodiseo_supply: Uint256,
 }
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq)]
@@ -159,12 +159,12 @@ pub enum QueryMsg {
 }
 
 impl WasmMockQuerier {
-    pub fn handle_query(&self, request: &QueryRequest<TerraQueryWrapper>) -> QuerierResult {
+    pub fn handle_query(&self, request: &QueryRequest<DaodiseoQueryWrapper>) -> QuerierResult {
         match &request {
-            QueryRequest::Custom(TerraQueryWrapper { route, query_data }) => {
-                if &TerraRoute::Oracle == route {
+            QueryRequest::Custom(DaodiseoQueryWrapper { route, query_data }) => {
+                if &DaodiseoRoute::Oracle == route {
                     match query_data {
-                        TerraQuery::ExchangeRates {
+                        DaodiseoQuery::ExchangeRates {
                             base_denom: _,
                             quote_denoms: _,
                         } => {
@@ -210,7 +210,7 @@ impl WasmMockQuerier {
                         request: msg.as_slice().into(),
                     }),
                 },
-                QueryMsg::Pool {} => match self.terraswap_pools_querier.pools.get(contract_addr) {
+                QueryMsg::Pool {} => match self.daodiseoswap_pools_querier.pools.get(contract_addr) {
                     Some(v) => SystemResult::Ok(ContractResult::from(to_binary(&PoolResponse {
                         assets: [
                             Asset {
@@ -241,7 +241,7 @@ impl WasmMockQuerier {
                 QueryMsg::EpochState { .. } => {
                     SystemResult::Ok(ContractResult::from(to_binary(&EpochStateResponse {
                         exchange_rate: Decimal256::from_ratio(10, 3),
-                        aterra_supply: Uint256::from_str("123123123").unwrap(),
+                        adaodiseo_supply: Uint256::from_str("123123123").unwrap(),
                     })))
                 }
                 QueryMsg::State {} => {
@@ -270,11 +270,11 @@ impl WasmMockQuerier {
 }
 
 impl WasmMockQuerier {
-    pub fn new(base: MockQuerier<TerraQueryWrapper>) -> Self {
+    pub fn new(base: MockQuerier<DaodiseoQueryWrapper>) -> Self {
         WasmMockQuerier {
             base,
             oracle_price_querier: OraclePriceQuerier::default(),
-            terraswap_pools_querier: TerraswapPoolsQuerier::default(),
+            daodiseoswap_pools_querier: DaodiseoswapPoolsQuerier::default(),
         }
     }
 
@@ -284,10 +284,10 @@ impl WasmMockQuerier {
     }
 
     #[allow(clippy::type_complexity)]
-    pub fn with_terraswap_pools(
+    pub fn with_daodiseoswap_pools(
         &mut self,
         pairs: &[(&String, (&String, &Uint128, &String, &Uint128))],
     ) {
-        self.terraswap_pools_querier = TerraswapPoolsQuerier::new(pairs);
+        self.daodiseoswap_pools_querier = DaodiseoswapPoolsQuerier::new(pairs);
     }
 }

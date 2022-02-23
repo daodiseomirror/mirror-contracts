@@ -22,7 +22,7 @@ use mirror_protocol::mint::{
     AssetConfigResponse, ConfigResponse, Cw20HookMsg, ExecuteMsg, IPOParams, InstantiateMsg,
     MigrateMsg, QueryMsg,
 };
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(
@@ -37,7 +37,7 @@ pub fn instantiate(
         collector: deps.api.addr_canonicalize(&msg.collector)?,
         collateral_oracle: deps.api.addr_canonicalize(&msg.collateral_oracle)?,
         staking: deps.api.addr_canonicalize(&msg.staking)?,
-        terraswap_factory: deps.api.addr_canonicalize(&msg.terraswap_factory)?,
+        daodiseoswap_factory: deps.api.addr_canonicalize(&msg.daodiseoswap_factory)?,
         lock: deps.api.addr_canonicalize(&msg.lock)?,
         base_denom: msg.base_denom,
         token_code_id: msg.token_code_id,
@@ -58,7 +58,7 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             oracle,
             collector,
             collateral_oracle,
-            terraswap_factory,
+            daodiseoswap_factory,
             lock,
             token_code_id,
             protocol_fee_rate,
@@ -70,7 +70,7 @@ pub fn execute(deps: DepsMut, env: Env, info: MessageInfo, msg: ExecuteMsg) -> S
             oracle,
             collector,
             collateral_oracle,
-            terraswap_factory,
+            daodiseoswap_factory,
             lock,
             token_code_id,
             protocol_fee_rate,
@@ -223,7 +223,7 @@ pub fn update_config(
     oracle: Option<String>,
     collector: Option<String>,
     collateral_oracle: Option<String>,
-    terraswap_factory: Option<String>,
+    daodiseoswap_factory: Option<String>,
     lock: Option<String>,
     token_code_id: Option<u64>,
     protocol_fee_rate: Option<Decimal>,
@@ -251,8 +251,8 @@ pub fn update_config(
         config.collateral_oracle = deps.api.addr_canonicalize(&collateral_oracle)?;
     }
 
-    if let Some(terraswap_factory) = terraswap_factory {
-        config.terraswap_factory = deps.api.addr_canonicalize(&terraswap_factory)?;
+    if let Some(daodiseoswap_factory) = daodiseoswap_factory {
+        config.daodiseoswap_factory = deps.api.addr_canonicalize(&daodiseoswap_factory)?;
     }
 
     if let Some(lock) = lock {
@@ -508,9 +508,9 @@ pub fn query_config(deps: Deps) -> StdResult<ConfigResponse> {
             .api
             .addr_humanize(&state.collateral_oracle)?
             .to_string(),
-        terraswap_factory: deps
+        daodiseoswap_factory: deps
             .api
-            .addr_humanize(&state.terraswap_factory)?
+            .addr_humanize(&state.daodiseoswap_factory)?
             .to_string(),
         lock: deps.api.addr_humanize(&state.lock)?.to_string(),
         base_denom: state.base_denom,

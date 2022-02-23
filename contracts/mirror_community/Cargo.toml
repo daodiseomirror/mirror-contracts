@@ -1,7 +1,7 @@
 [package]
 name = "mirror-community"
 version = "2.1.1"
-authors = ["Terraform Labs, PTE."]
+authors = ["Daodiseoform Labs, PTE."]
 edition = "2018"
 description = "A Community contract for Mirror Protocol - Keeps premined MIR token which can be used through Gov proposal"
 license = "Apache-2.0"

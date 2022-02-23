@@ -7,11 +7,11 @@ use cosmwasm_storage::to_length_prefixed;
 use mirror_protocol::oracle::PriceResponse;
 use mirror_protocol::short_reward::ShortRewardWeightResponse;
 use serde::Deserialize;
-use terra_cosmwasm::{TaxCapResponse, TaxRateResponse, TerraQuery, TerraQueryWrapper, TerraRoute};
-use terraswap::{asset::Asset, asset::AssetInfo, asset::PairInfo, pair::PoolResponse};
+use daodiseo_cosmwasm::{TaxCapResponse, TaxRateResponse, DaodiseoQuery, DaodiseoQueryWrapper, DaodiseoRoute};
+use daodiseoswap::{asset::Asset, asset::AssetInfo, asset::PairInfo, pair::PoolResponse};
 
 pub struct WasmMockQuerier {
-    base: MockQuerier<TerraQueryWrapper>,
+    base: MockQuerier<DaodiseoQueryWrapper>,
     pair_addr: Addr,
     pool_assets: [Asset; 2],
     oracle_price: Decimal,
@@ -36,7 +36,7 @@ pub fn mock_dependencies_with_querier(
 impl Querier for WasmMockQuerier {
     fn raw_query(&self, bin_request: &[u8]) -> QuerierResult {
         // MockQuerier doesn't support Custom, so we ignore it completely here
-        let request: QueryRequest<TerraQueryWrapper> = match from_slice(bin_request) {
+        let request: QueryRequest<DaodiseoQueryWrapper> = match from_slice(bin_request) {
             Ok(v) => v,
             Err(e) => {
                 return SystemResult::Err(SystemError::InvalidRequest {
@@ -69,16 +69,16 @@ pub enum MockQueryMsg {
 }
 
 impl WasmMockQuerier {
-    pub fn handle_query(&self, request: &QueryRequest<TerraQueryWrapper>) -> QuerierResult {
+    pub fn handle_query(&self, request: &QueryRequest<DaodiseoQueryWrapper>) -> QuerierResult {
         match &request {
-            QueryRequest::Custom(TerraQueryWrapper { route, query_data }) => {
-                if route == &TerraRoute::Treasury {
+            QueryRequest::Custom(DaodiseoQueryWrapper { route, query_data }) => {
+                if route == &DaodiseoRoute::Treasury {
                     match query_data {
-                        TerraQuery::TaxRate {} => {
+                        DaodiseoQuery::TaxRate {} => {
                             let res = TaxRateResponse { rate: self.tax.0 };
                             SystemResult::Ok(ContractResult::from(to_binary(&res)))
                         }
-                        TerraQuery::TaxCap { .. } => {
+                        DaodiseoQuery::TaxCap { .. } => {
                             let res = TaxCapResponse { cap: self.tax.1 };
                             SystemResult::Ok(ContractResult::from(to_binary(&res)))
                         }
@@ -143,7 +143,7 @@ impl WasmMockQuerier {
 }
 
 impl WasmMockQuerier {
-    pub fn new(base: MockQuerier<TerraQueryWrapper>) -> Self {
+    pub fn new(base: MockQuerier<DaodiseoQueryWrapper>) -> Self {
         WasmMockQuerier {
             base,
             pair_addr: Addr::unchecked(""),

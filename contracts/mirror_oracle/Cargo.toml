@@ -1,7 +1,7 @@
 [package]
 name = "mirror-oracle"
 version = "2.1.1"
-authors = ["Terraform Labs, PTE."]
+authors = ["Daodiseoform Labs, PTE."]
 edition = "2018"
 description = "A Oracle contract for Mirror Protocol - allows you to feed asset oracle price with owner key"
 license = "Apache-2.0"

@@ -8,7 +8,7 @@ use cosmwasm_std::{
 };
 use mirror_protocol::common::OrderBy;
 use mirror_protocol::limit_order::{LastOrderIdResponse, OrderResponse, OrdersResponse};
-use terraswap::asset::Asset;
+use daodiseoswap::asset::Asset;
 
 pub fn submit_order(
     deps: DepsMut,

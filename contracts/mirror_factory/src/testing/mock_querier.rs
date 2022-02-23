@@ -12,7 +12,7 @@ use crate::math::decimal_division;
 use crate::querier::MintAssetConfig;
 use mirror_protocol::oracle::PriceResponse;
 use std::collections::HashMap;
-use terraswap::asset::{AssetInfo, PairInfo};
+use daodiseoswap::asset::{AssetInfo, PairInfo};
 
 /// mock_dependencies is a drop-in replacement for cosmwasm_std::testing::mock_dependencies
 /// this uses our CustomQuerier.
@@ -31,20 +31,20 @@ pub fn mock_dependencies(
 
 pub struct WasmMockQuerier {
     base: MockQuerier<Empty>,
-    terraswap_factory_querier: TerraswapFactoryQuerier,
+    daodiseoswap_factory_querier: DaodiseoswapFactoryQuerier,
     oracle_querier: OracleQuerier,
     oracle_price_querier: OraclePriceQuerier,
     mint_querier: MintQuerier,
 }
 
 #[derive(Clone, Default)]
-pub struct TerraswapFactoryQuerier {
+pub struct DaodiseoswapFactoryQuerier {
     pairs: HashMap<String, String>,
 }
 
-impl TerraswapFactoryQuerier {
+impl DaodiseoswapFactoryQuerier {
     pub fn new(pairs: &[(&String, &String)]) -> Self {
-        TerraswapFactoryQuerier {
+        DaodiseoswapFactoryQuerier {
             pairs: pairs_to_map(pairs),
         }
     }
@@ -164,7 +164,7 @@ impl WasmMockQuerier {
             }) => match from_binary(msg).unwrap() {
                 QueryMsg::Pair { asset_infos } => {
                     let key = asset_infos[0].to_string() + asset_infos[1].to_string().as_str();
-                    match self.terraswap_factory_querier.pairs.get(&key) {
+                    match self.daodiseoswap_factory_querier.pairs.get(&key) {
                         Some(v) => SystemResult::Ok(ContractResult::from(to_binary(&PairInfo {
                             contract_addr: "pair".to_string(),
                             liquidity_token: v.to_string(),
@@ -283,16 +283,16 @@ impl WasmMockQuerier {
     pub fn new(base: MockQuerier<Empty>) -> Self {
         WasmMockQuerier {
             base,
-            terraswap_factory_querier: TerraswapFactoryQuerier::default(),
+            daodiseoswap_factory_querier: DaodiseoswapFactoryQuerier::default(),
             mint_querier: MintQuerier::default(),
             oracle_querier: OracleQuerier::default(),
             oracle_price_querier: OraclePriceQuerier::default(),
         }
     }
 
-    // configure the terraswap pair
-    pub fn with_terraswap_pairs(&mut self, pairs: &[(&String, &String)]) {
-        self.terraswap_factory_querier = TerraswapFactoryQuerier::new(pairs);
+    // configure the daodiseoswap pair
+    pub fn with_daodiseoswap_pairs(&mut self, pairs: &[(&String, &String)]) {
+        self.daodiseoswap_factory_querier = DaodiseoswapFactoryQuerier::new(pairs);
     }
 
     pub fn with_oracle_feeders(&mut self, feeders: &[(&String, &String)]) {

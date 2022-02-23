@@ -21,7 +21,7 @@ pub struct Config {
     pub mirror_token: CanonicalAddr,
     pub mint_contract: CanonicalAddr,
     pub oracle_contract: CanonicalAddr,
-    pub terraswap_factory: CanonicalAddr,
+    pub daodiseoswap_factory: CanonicalAddr,
     pub staking_contract: CanonicalAddr,
     pub commission_collector: CanonicalAddr,
     pub token_code_id: u64, // used to create asset token

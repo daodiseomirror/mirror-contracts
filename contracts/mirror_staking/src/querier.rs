@@ -4,7 +4,7 @@ use cosmwasm_std::{
 };
 use mirror_protocol::oracle::{PriceResponse, QueryMsg as OracleQueryMsg};
 use mirror_protocol::short_reward::{QueryMsg as ShortRewardQueryMsg, ShortRewardWeightResponse};
-use terraswap::{
+use daodiseoswap::{
     asset::AssetInfo, asset::PairInfo, pair::PoolResponse, pair::QueryMsg as PairQueryMsg,
     querier::query_pair_info,
 };
@@ -34,7 +34,7 @@ pub fn compute_premium_rate(
         msg: to_binary(&PairQueryMsg::Pool {})?,
     }))?;
 
-    let terraswap_price: Decimal = if pool.assets[0].is_native_token() {
+    let daodiseoswap_price: Decimal = if pool.assets[0].is_native_token() {
         if pool.assets[1].amount.is_zero() {
             Decimal::from_ratio(pool.assets[0].amount, Uint128::from(1u128))
         } else {
@@ -51,10 +51,10 @@ pub fn compute_premium_rate(
 
     if oracle_price.is_zero() {
         Ok((Decimal::zero(), true))
-    } else if terraswap_price > oracle_price {
+    } else if daodiseoswap_price > oracle_price {
         Ok((
             decimal_division(
-                decimal_subtraction(terraswap_price, oracle_price),
+                decimal_subtraction(daodiseoswap_price, oracle_price),
                 oracle_price,
             ),
             false,

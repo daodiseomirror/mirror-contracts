@@ -6,7 +6,7 @@ use cosmwasm_storage::{singleton, singleton_read, Bucket, ReadonlyBucket};
 
 use mirror_protocol::common::OrderBy;
 use std::convert::TryInto;
-use terraswap::asset::AssetRaw;
+use daodiseoswap::asset::AssetRaw;
 
 static KEY_LAST_ORDER_ID: &[u8] = b"last_order_id";
 

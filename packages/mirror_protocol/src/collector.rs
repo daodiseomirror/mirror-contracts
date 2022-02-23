@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 pub struct InstantiateMsg {
     pub owner: String,
     pub distribution_contract: String, // collected rewards receiver
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub mirror_token: String,
     pub base_denom: String,
     // aUST params
@@ -15,7 +15,7 @@ pub struct InstantiateMsg {
     pub bluna_token: String,
     // Lunax params
     pub lunax_token: String,
-    // when set, use this address instead of querying from terraswap
+    // when set, use this address instead of querying from daodiseoswap
     pub mir_ust_pair: Option<String>,
 }
 
@@ -26,7 +26,7 @@ pub enum ExecuteMsg {
     UpdateConfig {
         owner: Option<String>,
         distribution_contract: Option<String>,
-        terraswap_factory: Option<String>,
+        daodiseoswap_factory: Option<String>,
         mirror_token: Option<String>,
         base_denom: Option<String>,
         aust_token: Option<String>,
@@ -62,7 +62,7 @@ pub enum MoneyMarketCw20HookMsg {
 pub struct ConfigResponse {
     pub owner: String,
     pub distribution_contract: String, // collected rewards receiver
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub mirror_token: String,
     pub base_denom: String,
     pub aust_token: String,

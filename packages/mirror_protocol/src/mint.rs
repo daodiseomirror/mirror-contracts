@@ -3,7 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use cosmwasm_std::{Decimal, Uint128};
 use cw20::Cw20ReceiveMsg;
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 use crate::common::OrderBy;
 
@@ -14,7 +14,7 @@ pub struct InstantiateMsg {
     pub collector: String,
     pub collateral_oracle: String,
     pub staking: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub lock: String,
     pub base_denom: String,
     pub token_code_id: u64,
@@ -36,7 +36,7 @@ pub enum ExecuteMsg {
         oracle: Option<String>,
         collector: Option<String>,
         collateral_oracle: Option<String>,
-        terraswap_factory: Option<String>,
+        daodiseoswap_factory: Option<String>,
         lock: Option<String>,
         token_code_id: Option<u64>,
         protocol_fee_rate: Option<Decimal>,
@@ -151,7 +151,7 @@ pub struct ConfigResponse {
     pub collector: String,
     pub collateral_oracle: String,
     pub staking: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub lock: String,
     pub base_denom: String,
     pub token_code_id: u64,
@@ -191,6 +191,6 @@ pub struct NextPositionIdxResponse {
 pub struct MigrateMsg {
     pub collateral_oracle: String,
     pub staking: String,
-    pub terraswap_factory: String,
+    pub daodiseoswap_factory: String,
     pub lock: String,
 }

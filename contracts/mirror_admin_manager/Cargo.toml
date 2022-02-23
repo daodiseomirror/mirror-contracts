@@ -1,7 +1,7 @@
 [package]
 name = "mirror-admin-manager"
 version = "2.1.1"
-authors = ["Terraform Labs, PTE."]
+authors = ["Daodiseoform Labs, PTE."]
 edition = "2018"
 description = "Admin manager contract for Mirror Protocol - holds and manages admin privileges for Mirror contracts"
 license = "Apache-2.0"

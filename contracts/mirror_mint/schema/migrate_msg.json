@@ -6,7 +6,7 @@
     "collateral_oracle",
     "lock",
     "staking",
-    "terraswap_factory"
+    "daodiseoswap_factory"
   ],
   "properties": {
     "collateral_oracle": {
@@ -18,7 +18,7 @@
     "staking": {
       "type": "string"
     },
-    "terraswap_factory": {
+    "daodiseoswap_factory": {
       "type": "string"
     }
   }

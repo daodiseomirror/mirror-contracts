@@ -15,7 +15,7 @@ use cw20::Cw20ExecuteMsg;
 pub fn adjust_premium(deps: DepsMut, env: Env, asset_tokens: Vec<String>) -> StdResult<Response> {
     let config: Config = read_config(deps.storage)?;
     let oracle_contract = deps.api.addr_humanize(&config.oracle_contract)?;
-    let terraswap_factory = deps.api.addr_humanize(&config.terraswap_factory)?;
+    let daodiseoswap_factory = deps.api.addr_humanize(&config.daodiseoswap_factory)?;
     let short_reward_contract = deps.api.addr_humanize(&config.short_reward_contract)?;
     for asset_token in asset_tokens.iter() {
         let asset_token_raw = deps.api.addr_canonicalize(asset_token)?;
@@ -33,7 +33,7 @@ pub fn adjust_premium(deps: DepsMut, env: Env, asset_tokens: Vec<String>) -> Std
         let (premium_rate, no_price_feed) = compute_premium_rate(
             deps.as_ref(),
             oracle_contract.clone(),
-            terraswap_factory.clone(),
+            daodiseoswap_factory.clone(),
             asset_token_addr,
             config.base_denom.to_string(),
         )?;

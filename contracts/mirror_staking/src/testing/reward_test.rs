@@ -10,7 +10,7 @@ use mirror_protocol::staking::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, PoolInfoResponse, QueryMsg, RewardInfoResponse,
     RewardInfoResponseItem,
 };
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 #[test]
 fn test_deposit_reward() {
@@ -21,7 +21,7 @@ fn test_deposit_reward() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -161,7 +161,7 @@ fn test_deposit_reward_when_no_bonding() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -280,7 +280,7 @@ fn test_before_share_changes() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -423,7 +423,7 @@ fn test_withdraw() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -508,7 +508,7 @@ fn withdraw_multiple_rewards() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -712,7 +712,7 @@ fn withdraw_multiple_rewards() {
 fn test_adjust_premium() {
     let mut deps = mock_dependencies_with_querier(&[]);
 
-    // terraswap price 100
+    // daodiseoswap price 100
     // oracle price 100
     // premium zero
     deps.querier.with_pair_info(Addr::unchecked("pair"));
@@ -738,7 +738,7 @@ fn test_adjust_premium() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -777,7 +777,7 @@ fn test_adjust_premium() {
     assert_eq!(res.premium_rate, Decimal::zero());
     assert_eq!(res.premium_updated_time, env.block.time.seconds());
 
-    // terraswap price = 90
+    // daodiseoswap price = 90
     // premium rate = 0
     deps.querier.with_pool_assets([
         Asset {
@@ -822,7 +822,7 @@ fn test_adjust_premium() {
     assert_eq!(res.premium_rate, Decimal::zero());
     assert_eq!(res.premium_updated_time, env.block.time.seconds());
 
-    // terraswap price = 105
+    // daodiseoswap price = 105
     // premium rate = 5%
     deps.querier.with_pool_assets([
         Asset {

@@ -10,8 +10,8 @@ use mirror_protocol::staking::{
     Cw20HookMsg, ExecuteMsg, InstantiateMsg, PoolInfoResponse, QueryMsg, RewardInfoResponse,
     RewardInfoResponseItem,
 };
-use terraswap::asset::{Asset, AssetInfo};
-use terraswap::pair::ExecuteMsg as PairExecuteMsg;
+use daodiseoswap::asset::{Asset, AssetInfo};
+use daodiseoswap::pair::ExecuteMsg as PairExecuteMsg;
 
 #[test]
 fn test_bond_tokens() {
@@ -22,7 +22,7 @@ fn test_bond_tokens() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -170,7 +170,7 @@ fn test_unbond() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -292,7 +292,7 @@ fn test_increase_short_token() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -397,7 +397,7 @@ fn test_decrease_short_token() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),
@@ -511,7 +511,7 @@ fn test_auto_stake() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),

@@ -1,12 +1,12 @@
 # Mirror Core Contracts
 
-This monorepository contains the source code for the core smart contracts implementing Mirror Protocol on the [Terra](https://terra.money) blockchain.
+This monorepository contains the source code for the core smart contracts implementing Mirror Protocol on the [Daodiseo](https://daodiseo.money) blockchain.
 
 You can find information about the architecture, usage, and function of the smart contracts on the official Mirror documentation [site](https://docs.mirror.finance/contracts/architecture).
 
 ### Dependencies
 
-Mirror depends on [Terraswap](https://terraswap.io) and uses its [implementation](https://github.com/terraswap/terraswap) of the CW20 token specification.
+Mirror depends on [Daodiseoswap](https://daodiseoswap.io) and uses its [implementation](https://github.com/daodiseoswap/daodiseoswap) of the CW20 token specification.
 
 ## Contracts
 
@@ -20,7 +20,7 @@ Mirror depends on [Terraswap](https://terraswap.io) and uses its [implementation
 | [`mirror_oracle`](./contracts/mirror_oracle)        | [doc](https://docs.mirror.finance/contracts/oracle)    | Provides interface for oracle feeders to post prices for mAssets                                                                   |
 | [`mirror_staking`](./contracts/mirror_staking)      | [doc](https://docs.mirror.finance/contracts/staking)   | Distributes MIR rewards from block reward to LP stakers          
 | [`mirror_lock`](./contracts/mirror_lock)      | [doc](https://docs.mirror.finance/contracts/lock)   | Locks the UST obtained from selling mAssets on shorting positions |
-| [`mirror_collateral_oracle`](./contracts/mirror_collateral_oracle)      | [doc](https://docs.mirror.finance/contracts/collateral-oracle)   | Directory of whitelisted collateral assets, acts as a proxy to different price sources on the Terra ecosystem |
+| [`mirror_collateral_oracle`](./contracts/mirror_collateral_oracle)      | [doc](https://docs.mirror.finance/contracts/collateral-oracle)   | Directory of whitelisted collateral assets, acts as a proxy to different price sources on the Daodiseo ecosystem |
 | [`mirror_limit_order`](./contracts/mirror_limit_order)      | [doc](https://docs.mirror.finance/contracts/limit-order)   | Provides a limit order intrface for bidders and arbitrage opportunities for market makers |
 | [`mirror_short_reward`](./contracts/mirror_short_reward)      | [doc](https://docs.mirror.finance/contracts/short_reward)   | Implements the calculations to obtain the reward portion given to sLP stakers |
 

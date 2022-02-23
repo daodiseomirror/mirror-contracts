@@ -18,7 +18,7 @@
             "oracle_contract",
             "owner",
             "staking_contract",
-            "terraswap_factory"
+            "daodiseoswap_factory"
           ],
           "properties": {
             "commission_collector": {
@@ -39,7 +39,7 @@
             "staking_contract": {
               "type": "string"
             },
-            "terraswap_factory": {
+            "daodiseoswap_factory": {
               "type": "string"
             }
           }

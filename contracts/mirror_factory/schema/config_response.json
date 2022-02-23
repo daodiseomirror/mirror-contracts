@@ -12,7 +12,7 @@
     "oracle_contract",
     "owner",
     "staking_contract",
-    "terraswap_factory",
+    "daodiseoswap_factory",
     "token_code_id"
   ],
   "properties": {
@@ -65,7 +65,7 @@
     "staking_contract": {
       "type": "string"
     },
-    "terraswap_factory": {
+    "daodiseoswap_factory": {
       "type": "string"
     },
     "token_code_id": {

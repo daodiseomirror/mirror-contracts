@@ -19,7 +19,7 @@ fn test_deprecate() {
         mirror_token: "reward".to_string(),
         mint_contract: "mint".to_string(),
         oracle_contract: "oracle".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         base_denom: "uusd".to_string(),
         premium_min_update_interval: 3600,
         short_reward_contract: "short_reward".to_string(),

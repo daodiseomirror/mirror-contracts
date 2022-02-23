@@ -2,7 +2,7 @@ use cosmwasm_std::Decimal;
 use schemars::JsonSchema;
 use serde::{Deserialize, Serialize};
 use std::fmt;
-use terraswap::asset::AssetInfo;
+use daodiseoswap::asset::AssetInfo;
 
 #[derive(Serialize, Deserialize, Clone, Debug, PartialEq, JsonSchema)]
 pub struct InstantiateMsg {
@@ -105,8 +105,8 @@ pub enum SourceType {
     FixedPrice {
         price: Decimal,
     },
-    Terraswap {
-        terraswap_pair_addr: String,
+    Daodiseoswap {
+        daodiseoswap_pair_addr: String,
         intermediate_denom: Option<String>,
     },
     AnchorMarket {
@@ -127,7 +127,7 @@ impl fmt::Display for SourceType {
             SourceType::AnchorOracle { .. } => write!(f, "anchor_oracle"),
             SourceType::BandOracle { .. } => write!(f, "band_oracle"),
             SourceType::FixedPrice { .. } => write!(f, "fixed_price"),
-            SourceType::Terraswap { .. } => write!(f, "terraswap"),
+            SourceType::Daodiseoswap { .. } => write!(f, "daodiseoswap"),
             SourceType::AnchorMarket { .. } => write!(f, "anchor_market"),
             SourceType::Native { .. } => write!(f, "native"),
             SourceType::Lunax { .. } => write!(f, "lunax"),

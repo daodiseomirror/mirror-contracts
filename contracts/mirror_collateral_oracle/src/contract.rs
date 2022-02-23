@@ -14,7 +14,7 @@ use mirror_protocol::collateral_oracle::{
     CollateralInfoResponse, CollateralInfosResponse, CollateralPriceResponse, ConfigResponse,
     ExecuteMsg, InstantiateMsg, MigrateMsg, QueryMsg, SourceType,
 };
-use terraswap::asset::AssetInfo;
+use daodiseoswap::asset::AssetInfo;
 
 #[cfg_attr(not(feature = "library"), entry_point)]
 pub fn instantiate(

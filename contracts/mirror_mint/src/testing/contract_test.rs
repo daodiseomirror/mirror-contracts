@@ -6,7 +6,7 @@ use mirror_protocol::collateral_oracle::{ExecuteMsg::RegisterCollateralAsset, So
 use mirror_protocol::mint::{
     AssetConfigResponse, ConfigResponse, ExecuteMsg, IPOParams, InstantiateMsg, QueryMsg,
 };
-use terraswap::asset::AssetInfo;
+use daodiseoswap::asset::AssetInfo;
 
 static TOKEN_CODE_ID: u64 = 10u64;
 
@@ -19,7 +19,7 @@ fn proper_initialization() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom: "uusd".to_string(),
         token_code_id: TOKEN_CODE_ID,
@@ -36,7 +36,7 @@ fn proper_initialization() {
     assert_eq!("oracle0000", config.oracle.as_str());
     assert_eq!("staking0000", config.staking.as_str());
     assert_eq!("collector0000", config.collector.as_str());
-    assert_eq!("terraswap_factory", config.terraswap_factory.as_str());
+    assert_eq!("daodiseoswap_factory", config.daodiseoswap_factory.as_str());
     assert_eq!("lock0000", config.lock.as_str());
     assert_eq!(TOKEN_CODE_ID, config.token_code_id);
     assert_eq!(Decimal::percent(1), config.protocol_fee_rate);
@@ -50,7 +50,7 @@ fn update_config() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom: "uusd".to_string(),
         token_code_id: TOKEN_CODE_ID,
@@ -64,7 +64,7 @@ fn update_config() {
         owner: Some("owner0001".to_string()),
         oracle: None,
         collector: None,
-        terraswap_factory: None,
+        daodiseoswap_factory: None,
         lock: None,
         token_code_id: Some(100u64),
         protocol_fee_rate: None,
@@ -84,7 +84,7 @@ fn update_config() {
         owner: None,
         oracle: None,
         collector: None,
-        terraswap_factory: None,
+        daodiseoswap_factory: None,
         lock: None,
         token_code_id: None,
         protocol_fee_rate: None,
@@ -107,7 +107,7 @@ fn register_asset() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,
@@ -225,7 +225,7 @@ fn update_asset() {
         collector: "collector0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
         staking: "staking0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,

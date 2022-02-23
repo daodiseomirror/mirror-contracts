@@ -1,6 +1,6 @@
 use crate::state::{AssetConfig, Position};
 use cosmwasm_std::{Decimal, Deps, Env, StdError, StdResult};
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 // Check zero balance & same collateral with position
 pub fn assert_collateral(deps: Deps, position: &Position, collateral: &Asset) -> StdResult<()> {

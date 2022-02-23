@@ -7,7 +7,7 @@ use cosmwasm_storage::{singleton, singleton_read, Bucket, ReadonlyBucket};
 use mirror_protocol::common::OrderBy;
 use mirror_protocol::mint::IPOParams;
 use std::convert::TryInto;
-use terraswap::asset::{AssetInfoRaw, AssetRaw};
+use daodiseoswap::asset::{AssetInfoRaw, AssetRaw};
 
 static PREFIX_ASSET_CONFIG: &[u8] = b"asset_config";
 static PREFIX_POSITION: &[u8] = b"position";
@@ -33,7 +33,7 @@ pub struct Config {
     pub collector: CanonicalAddr,
     pub collateral_oracle: CanonicalAddr,
     pub staking: CanonicalAddr,
-    pub terraswap_factory: CanonicalAddr,
+    pub daodiseoswap_factory: CanonicalAddr,
     pub lock: CanonicalAddr,
     pub base_denom: String,
     pub token_code_id: u64,

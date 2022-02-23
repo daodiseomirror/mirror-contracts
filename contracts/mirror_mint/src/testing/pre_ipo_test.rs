@@ -10,7 +10,7 @@ use mirror_protocol::collateral_oracle::{ExecuteMsg::RegisterCollateralAsset, So
 use mirror_protocol::mint::{
     AssetConfigResponse, Cw20HookMsg, ExecuteMsg, IPOParams, InstantiateMsg, QueryMsg,
 };
-use terraswap::asset::{Asset, AssetInfo};
+use daodiseoswap::asset::{Asset, AssetInfo};
 
 static TOKEN_CODE_ID: u64 = 10u64;
 fn mock_env_with_block_time(time: u64) -> Env {
@@ -47,7 +47,7 @@ fn pre_ipo_assets() {
         collector: "collector0000".to_string(),
         staking: "staking0000".to_string(),
         collateral_oracle: "collateraloracle0000".to_string(),
-        terraswap_factory: "terraswap_factory".to_string(),
+        daodiseoswap_factory: "daodiseoswap_factory".to_string(),
         lock: "lock0000".to_string(),
         base_denom,
         token_code_id: TOKEN_CODE_ID,

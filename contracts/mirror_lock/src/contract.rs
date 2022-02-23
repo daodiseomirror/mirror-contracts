@@ -12,7 +12,7 @@ use cosmwasm_std::{
 use mirror_protocol::lock::{
     ConfigResponse, ExecuteMsg, InstantiateMsg, PositionLockInfoResponse, QueryMsg,
 };
-use terraswap::{
+use daodiseoswap::{
     asset::{Asset, AssetInfo},
     querier::query_balance,
 };

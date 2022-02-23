@@ -8,7 +8,7 @@ use mirror_protocol::collateral_oracle::{
     CollateralInfoResponse, CollateralPriceResponse, ExecuteMsg, InstantiateMsg, SourceType,
 };
 use std::str::FromStr;
-use terraswap::asset::AssetInfo;
+use daodiseoswap::asset::AssetInfo;
 
 #[test]
 fn proper_initialization() {
@@ -313,9 +313,9 @@ fn get_oracle_price() {
 }
 
 #[test]
-fn get_terraswap_price() {
+fn get_daodiseoswap_price() {
     let mut deps = mock_dependencies(&[]);
-    deps.querier.with_terraswap_pools(&[
+    deps.querier.with_daodiseoswap_pools(&[
         (
             &"ustancpair0000".to_string(),
             (
@@ -353,8 +353,8 @@ fn get_terraswap_price() {
             contract_addr: "anc0000".to_string(),
         },
         multiplier: Decimal::percent(100),
-        price_source: SourceType::Terraswap {
-            terraswap_pair_addr: "ustancpair0000".to_string(),
+        price_source: SourceType::Daodiseoswap {
+            daodiseoswap_pair_addr: "ustancpair0000".to_string(),
             intermediate_denom: None,
         },
     };
@@ -381,8 +381,8 @@ fn get_terraswap_price() {
             contract_addr: "bluna0000".to_string(),
         },
         multiplier: Decimal::percent(100),
-        price_source: SourceType::Terraswap {
-            terraswap_pair_addr: "lunablunapair0000".to_string(),
+        price_source: SourceType::Daodiseoswap {
+            daodiseoswap_pair_addr: "lunablunapair0000".to_string(),
             intermediate_denom: Some("uluna".to_string()),
         },
     };
