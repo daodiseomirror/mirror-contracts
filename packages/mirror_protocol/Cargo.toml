@@ -1,11 +1,11 @@
 [package]
-name = "mirror-protocol"
+name = "daodiseomirror"
 version = "2.1.1"
 authors = ["Daodiseoform Labs, PTE."]
 edition = "2018"
-description = "Common helpers for mirror-protocol"
+description = "Common helpers for daodiseomirror"
 license = "Apache-2.0"
-repository = "https://github.com/mirror-protocol/mirror-contracts"
+repository = "https://github.com/daodiseomirror/mirror-contracts"
 homepage = "https://mirror.finance"
 documentation = "https://docs.mirror.finance"
 
